@@ -10,7 +10,7 @@ public class LinkedMap<K,V> extends AbstractMap<K,V> {
     private int size = 0;
     private LinkedEntry<K,V> head = null;
     private LinkedEntry<K,V> tail = null;
-    class LinkedEntry<K,V> extends SimpleEntry<K,V>{
+    private class LinkedEntry<K,V> extends SimpleEntry<K,V>{
         private LinkedEntry(K key, V value){
             super(key,value);
         }
@@ -152,7 +152,7 @@ public class LinkedMap<K,V> extends AbstractMap<K,V> {
         Iterator<Entry<K,V>> entryIterator = entrySet().iterator();
         while(entryIterator.hasNext()){
             Entry<K,V> entry = entryIterator.next();
-            if(entry.getKey().equals(key)){
+            if(entry.getKey()==null ? key==null : entry.getKey().equals(key)){
                 result = entry.getValue();
                 entry.setValue(value);
                 return result;
