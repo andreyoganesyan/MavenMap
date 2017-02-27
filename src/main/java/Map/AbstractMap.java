@@ -8,6 +8,42 @@ import java.util.*;
 public abstract class AbstractMap<K,V> implements Map<K,V> {
 
     public abstract Set<Map.Entry<K,V>> entrySet();
+    protected static abstract class SimpleEntry<K,V> implements  Map.Entry<K,V>{
+        private K key;
+        private V value;
+        protected SimpleEntry(K key, V value){
+            this.key=key;
+            this.value=value;
+        }
+        public K getKey() {
+            return key;
+        }
+        public V getValue() {
+            return value;
+        }
+        public V setValue(V value) {
+            return this.value=value;
+        }
+        public boolean equals(Object o){
+            if (o instanceof Entry) {
+                Object key = ((Entry) o).getKey();
+                Object value = ((Entry) o).getValue();
+                if (key==null ? getKey()==null : key.equals(getKey()) &&
+                        (value==null ? getValue()==null : value.equals(getValue())))
+                    return true;
+            }
+            return false;
+
+        }
+        public int hashCode(){
+            return (getKey()==null ? 0 : getKey().hashCode()) ^ (getValue()==null ? 0 : getValue().hashCode());
+        }
+        public String toString(){
+            return key+"="+value;
+        }
+
+    }
+
     abstract public V put(K key, V value);
 
 
@@ -150,5 +186,20 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
                 return AbstractMap.this.containsValue(o);
             }
         };
+    }
+
+    public int size(){
+        return entrySet().size();
+    }
+    public String toString(){
+        StringBuilder result = new StringBuilder("{");
+        for(Entry<K,V> entry:entrySet()){
+            result.append(entry);
+            result.append(", ");
+        }
+        if(!result.toString().equals("{"))
+            result.delete(result.length()-2, result.length());
+        result.append("}");
+        return result.toString();
     }
 }
