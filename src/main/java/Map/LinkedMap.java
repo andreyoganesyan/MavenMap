@@ -161,11 +161,10 @@ public class LinkedMap<K,V> extends AbstractMap<K,V> {
         LinkedEntry<K,V> newEntry = new LinkedEntry<K, V>(key,value);
         if (tail==null) {
             tail = head = newEntry;
-            size++;
-            return null;
+        } else {
+            newEntry.prev=tail;
+            tail=tail.next=newEntry;
         }
-        newEntry.prev=tail;
-        tail=tail.next=newEntry;
         size++;
         return null;
     }
