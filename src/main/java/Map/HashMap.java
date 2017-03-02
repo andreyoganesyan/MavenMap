@@ -112,6 +112,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> {
             public boolean remove(Object o) {
                 if (!(o instanceof Entry)) return false;
                 Entry oEntry = (Entry)o;
+                if(buckets[getIndex(oEntry.getKey())]==null) return false;
                 Iterator<? extends Entry<K,V>> entryIterator = buckets[getIndex(oEntry.getKey())].iterator();
                 while (entryIterator.hasNext()){
                     Entry<K,V> entry = entryIterator.next();
@@ -174,7 +175,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> {
 
     @Override
     public V put(K key, V value) {
-        int index = getIndex(key.hashCode());
+        int index = getIndex(key);
         if(buckets[index]==null){
             buckets[index] = new LinkedList<HashMapEntry<K, V>>();
         }
