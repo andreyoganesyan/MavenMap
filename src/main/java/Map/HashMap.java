@@ -40,6 +40,7 @@ public class HashMap<K,V> extends AbstractMap<K,V> {
             public boolean contains(Object o) {
                 if(!(o instanceof Entry)) return false;
                 Entry oEntry = (Entry)o;
+                if(buckets[getIndex(oEntry.getKey())] == null) return false;
                 for(Entry<K,V> entry: buckets[getIndex(oEntry.getKey())]){
                     if (entry.equals(o)) return true;
                 }
