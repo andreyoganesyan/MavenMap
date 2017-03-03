@@ -1,6 +1,6 @@
 import java.util.LinkedHashMap;
 import java.util.Map;
-import Map.*;
+import map.*;
 /**
  * Created by andre_000 on 17-Feb-17.
  */

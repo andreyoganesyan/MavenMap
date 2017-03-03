@@ -1,45 +1,46 @@
-package Map;
+package map;
 
 import java.util.*;
+import map.exceptions.*;
 
 /**
  * Created by andre_000 on 27-Feb-17.
  */
-public class ArrayMap<K,V> extends AbstractMap<K,V>{
+public class ArrayMap<K, V> extends AbstractMap<K, V> {
 
-    private class ArrayMapEntry<K,V> extends AbstractMap.SimpleEntry<K,V>{
-        private ArrayMapEntry(K key, V value){
-            super(key,value);
+    private class ArrayMapEntry<K, V> extends AbstractMap.SimpleEntry<K, V> {
+        private ArrayMapEntry(K key, V value) {
+            super(key, value);
         }
-
     }
+
     @SuppressWarnings("unchecked")
-    private ArrayMapEntry<K,V>[] entryArray = new ArrayMapEntry[0];
+    private ArrayMapEntry<K, V>[] entryArray = new ArrayMapEntry[0];
 
     public Set<Entry<K, V>> entrySet() {
-        return new Set<Entry<K,V>>(){
+        return new Set<Entry<K, V>>() {
 
             public int size() {
                 return entryArray.length;
             }
 
             public boolean isEmpty() {
-                return entryArray.length==0;
+                return entryArray.length == 0;
             }
 
             public boolean contains(Object o) {
-                for(Entry entry:entryArray){
+                for (Entry entry : entryArray) {
                     if (entry.equals(o)) return true;
                 }
                 return false;
             }
 
             public Iterator<Entry<K, V>> iterator() {
-                return new Iterator<Entry<K,V>>(){
+                return new Iterator<Entry<K, V>>() {
                     int pointer = 0;
 
                     public boolean hasNext() {
-                        return pointer<entryArray.length;
+                        return pointer < entryArray.length;
                     }
 
                     public Map.Entry next() {
@@ -47,36 +48,36 @@ public class ArrayMap<K,V> extends AbstractMap<K,V>{
                     }
 
                     public void remove() {
-                        if(pointer==0) throw new IllegalStateException();
-                        int prevReturned=pointer-1;
-                        for(int i = prevReturned;i<entryArray.length-1;i++){
-                            entryArray[i]=entryArray[i+1];
+                        if (pointer == 0) throw new IllegalEntrySetStateException();
+                        int prevReturned = pointer - 1;
+                        for (int i = prevReturned; i < entryArray.length - 1; i++) {
+                            entryArray[i] = entryArray[i + 1];
                         }
                         pointer--;
-                        entryArray= Arrays.copyOf(entryArray,entryArray.length-1);
+                        entryArray = Arrays.copyOf(entryArray, entryArray.length - 1);
                     }
                 };
             }
 
             public Object[] toArray() {
-                return (Object[])entryArray;
+                return (Object[]) entryArray;
             }
 
             @SuppressWarnings("unchecked")
             public <T> T[] toArray(T[] a) {
-                return (T[])entryArray;
+                return (T[]) entryArray;
             }
 
             public boolean add(Entry<K, V> kvEntry) {
-                V oldValue = put(kvEntry.getKey(),kvEntry.getValue());
-                if (oldValue!=kvEntry.getValue()) return true;
+                V oldValue = put(kvEntry.getKey(), kvEntry.getValue());
+                if (oldValue != kvEntry.getValue()) return true;
                 return false;
             }
 
             public boolean remove(Object o) {
-                Iterator<Entry<K,V>> entryIterator = iterator();
-                while (entryIterator.hasNext()){
-                    if(entryIterator.next().equals(o)) {
+                Iterator<Entry<K, V>> entryIterator = iterator();
+                while (entryIterator.hasNext()) {
+                    if (entryIterator.next().equals(o)) {
                         entryIterator.remove();
                         return true;
                     }
@@ -85,20 +86,20 @@ public class ArrayMap<K,V> extends AbstractMap<K,V>{
             }
 
             public boolean containsAll(Collection<?> c) {
-                for(Object o:c){
-                    if(!contains(o)) return false;
+                for (Object o : c) {
+                    if (!contains(o)) return false;
                 }
                 return true;
             }
 
             public boolean addAll(Collection<? extends Entry<K, V>> c) {
-                boolean result=false;
-                List<Entry<K,V>> newEntries = new LinkedList<Entry<K, V>>();
+                boolean result = false;
+                List<Entry<K, V>> newEntries = new LinkedList<Entry<K, V>>();
                 outerFor:
-                for(Entry<K,V> cEntry : c ) {
+                for (Entry<K, V> cEntry : c) {
                     for (Entry<K, V> entry : entryArray) {
                         if (entry.getKey().equals(cEntry.getKey())) {
-                            if(!entry.getValue().equals(cEntry.getValue())) {
+                            if (!entry.getValue().equals(cEntry.getValue())) {
                                 result = true;
                                 entry.setValue(cEntry.getValue());
                             }
@@ -107,8 +108,8 @@ public class ArrayMap<K,V> extends AbstractMap<K,V>{
                     }
                     newEntries.add(cEntry);
                 }
-                if(newEntries.size()>0) {
-                    result=true;
+                if (newEntries.size() > 0) {
+                    result = true;
                     entryArray = Arrays.copyOf(entryArray, entryArray.length + newEntries.size());
                     for (int i = 0; i < newEntries.size(); i++) {
                         entryArray[entryArray.length - newEntries.size() + i] = new ArrayMapEntry<K, V>(newEntries.get(i).getKey(), newEntries.get(i).getValue());
@@ -119,12 +120,12 @@ public class ArrayMap<K,V> extends AbstractMap<K,V>{
 
             public boolean retainAll(Collection<?> c) {
                 boolean result = false;
-                Iterator<Entry<K,V>> entryIterator = iterator();
-                while(entryIterator.hasNext()){
-                    Entry<K,V> entry = entryIterator.next();
-                    if(!c.contains(entry)){
+                Iterator<Entry<K, V>> entryIterator = iterator();
+                while (entryIterator.hasNext()) {
+                    Entry<K, V> entry = entryIterator.next();
+                    if (!c.contains(entry)) {
                         entryIterator.remove();
-                        result=true;
+                        result = true;
                     }
                 }
                 return result;
@@ -132,30 +133,30 @@ public class ArrayMap<K,V> extends AbstractMap<K,V>{
 
             public boolean removeAll(Collection<?> c) {
                 boolean result = false;
-                for(Object o:c){
-                    if(remove(o)) result=true;
+                for (Object o : c) {
+                    if (remove(o)) result = true;
                 }
                 return result;
             }
 
             @SuppressWarnings("unchecked")
             public void clear() {
-                entryArray=new ArrayMapEntry[0];
+                entryArray = new ArrayMapEntry[0];
             }
         };
     }
 
     public V put(K key, V value) {
-        for(int i =0; i<entryArray.length; i++){
-            if (entryArray[i].getKey()==null? key==null  : entryArray[i].getKey().equals(key)){
+        for (int i = 0; i < entryArray.length; i++) {
+            if (entryArray[i].getKey() == null ? key == null : entryArray[i].getKey().equals(key)) {
                 V result = entryArray[i].getValue();
                 entryArray[i].setValue(value);
                 return result;
             }
         }
 
-        entryArray=Arrays.copyOf(entryArray,entryArray.length+1);
-        entryArray[entryArray.length-1] = new ArrayMapEntry<K, V>(key,value);
+        entryArray = Arrays.copyOf(entryArray, entryArray.length + 1);
+        entryArray[entryArray.length - 1] = new ArrayMapEntry<K, V>(key, value);
 
         return null;
     }

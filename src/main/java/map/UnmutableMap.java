@@ -1,18 +1,20 @@
-package Map;
+package map;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import map.exceptions.*;
 
 /**
  * Created by andre_000 on 02-Mar-17.
  */
-public class UnmutableMap<K,V> implements Map<K,V>{
+public class UnmutableMap<K, V> implements Map<K, V> {
 
-    Map<K,V> actualMap;
-    public UnmutableMap(Map map){
-        actualMap=map;
+    private Map<K, V> actualMap;
+
+    public UnmutableMap(Map map) {
+        actualMap = map;
     }
 
     @Override
@@ -42,16 +44,16 @@ public class UnmutableMap<K,V> implements Map<K,V>{
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedMapOperationException();
     }
 
     public void putAll(Map<? extends K, ? extends V> map) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedMapOperationException();
     }
 
     @Override
     public V remove(Object key) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedMapOperationException();
     }
 
     @Override
@@ -61,7 +63,7 @@ public class UnmutableMap<K,V> implements Map<K,V>{
 
     @Override
     public V put(K key, V value) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedMapOperationException();
     }
 
     @Override
