@@ -3,9 +3,6 @@ package map;
 import java.util.*;
 import map.exceptions.*;
 
-/**
- * Created by andre_000 on 27-Feb-17.
- */
 public class ArrayMap<K, V> extends AbstractMap<K, V> {
 
     @SuppressWarnings("hiding")

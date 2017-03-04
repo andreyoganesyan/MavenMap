@@ -4,9 +4,6 @@ import java.util.*;
 
 import map.exceptions.*;
 
-/**
- * Created by andre_000 on 28-Feb-17.
- */
 public class HashMap<K, V> extends AbstractMap<K, V> {
 
     private int capacity = MIN_CAPACITY;

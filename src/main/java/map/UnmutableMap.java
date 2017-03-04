@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import map.exceptions.*;
 
-/**
- * Created by andre_000 on 02-Mar-17.
- */
 public class UnmutableMap<K, V> implements Map<K, V> {
 
     private Map<K, V> actualMap;

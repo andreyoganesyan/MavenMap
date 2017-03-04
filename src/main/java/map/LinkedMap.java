@@ -3,9 +3,6 @@ package map;
 import java.util.*;
 import map.exceptions.*;
 
-/**
- * Created by andre_000 on 25-Feb-17.
- */
 public class LinkedMap<K, V> extends AbstractMap<K, V> {
 
     private int size = 0;
