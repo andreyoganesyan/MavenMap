@@ -2,13 +2,11 @@ package map;
 
 import java.util.*;
 
-/**
- * Created by andre_000 on 18-Feb-17.
- */
 public abstract class AbstractMap<K, V> implements Map<K, V> {
 
     public abstract Set<Map.Entry<K, V>> entrySet();
 
+    @SuppressWarnings("hiding")
     protected static abstract class SimpleEntry<K, V> implements Map.Entry<K, V> {
         private K key;
         private V value;

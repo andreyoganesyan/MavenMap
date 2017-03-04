@@ -8,6 +8,7 @@ import map.exceptions.*;
  */
 public class ArrayMap<K, V> extends AbstractMap<K, V> {
 
+    @SuppressWarnings("hiding")
     private class ArrayMapEntry<K, V> extends AbstractMap.SimpleEntry<K, V> {
         private ArrayMapEntry(K key, V value) {
             super(key, value);
@@ -70,7 +71,7 @@ public class ArrayMap<K, V> extends AbstractMap<K, V> {
 
             public boolean add(Entry<K, V> kvEntry) {
                 V oldValue = put(kvEntry.getKey(), kvEntry.getValue());
-                if (oldValue != kvEntry.getValue()) return true;
+                if (!oldValue.equals(kvEntry.getValue())) return true;
                 return false;
             }
 

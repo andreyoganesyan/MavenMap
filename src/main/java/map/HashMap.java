@@ -1,6 +1,7 @@
 package map;
 
 import java.util.*;
+
 import map.exceptions.*;
 
 /**
@@ -14,9 +15,10 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     private static final int MIN_CAPACITY = 256;
     private static final int MAX_CAPACITY = 1073741824;
 
-
+    @SuppressWarnings("unchecked")
     List<HashMapEntry<K, V>>[] buckets = new LinkedList[capacity];
 
+    @SuppressWarnings("hiding")
     private class HashMapEntry<K, V> extends SimpleEntry<K, V> {
         private HashMapEntry(K key, V value) {
             super(key, value);
@@ -198,6 +200,41 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
             resize();
         }
         return null;
+    }
+
+    @Override
+    public V get(Object key) {
+        if (buckets[getIndex(key)] == null) return null;
+        for (Entry<K, V> entry : buckets[getIndex(key)]) {
+            if (entry.getKey() == null ? key == null : entry.getKey().equals(key)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    public V remove(Object key) {
+        if (buckets[getIndex(key)] == null) return null;
+        Iterator<? extends Entry<K, V>> entryIterator = buckets[getIndex(key)].iterator();
+        while (entryIterator.hasNext()) {
+            Entry<K, V> entry = entryIterator.next();
+            if (entry.getKey() == null ? key == null : entry.getKey().equals(key)) {
+                entryIterator.remove();
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        if (buckets[getIndex(key)] == null) return false;
+        for (Entry<K, V> entry : buckets[getIndex(key)]) {
+            if (entry.getKey() == null ? key == null : entry.getKey().equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void resize() {

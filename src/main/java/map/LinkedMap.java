@@ -12,6 +12,7 @@ public class LinkedMap<K, V> extends AbstractMap<K, V> {
     private LinkedEntry<K, V> head = null;
     private LinkedEntry<K, V> tail = null;
 
+    @SuppressWarnings("hiding")
     private class LinkedEntry<K, V> extends SimpleEntry<K, V> {
         private LinkedEntry(K key, V value) {
             super(key, value);
