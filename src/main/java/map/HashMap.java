@@ -253,7 +253,7 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
     }
 
     private int getIndex(int keyHashCode) {
-        return keyHashCode % capacity;
+        return keyHashCode & (capacity-1);
     }
 
     private int getIndex(Object key) {
